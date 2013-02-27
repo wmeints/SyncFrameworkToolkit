@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{666F20DD-C0D0-453C-9947-950ADFFC2796}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microsoft.Synchronization.ClientServices</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>Microsoft.Synchronization.ClientServices</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Client\iOS\</OutputPath>
+    <DefineConstants>DEBUG;CLIENT, IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <BuildIpa>True</BuildIpa>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\clientcommon\AsyncWorkerManager.cs">
+      <Link>ClientCommon\AsyncWorkerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\AsyncWorkManagerException.cs">
+      <Link>ClientCommon\AsyncWorkManagerException.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\AsyncWorkRequest.cs">
+      <Link>ClientCommon\AsyncWorkRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\CacheController.cs">
+      <Link>ClientCommon\CacheController.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\CacheControllerBehavior.cs">
+      <Link>ClientCommon\CacheControllerBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\CacheControllerException.cs">
+      <Link>ClientCommon\CacheControllerException.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\CacheRefreshStatistics.cs">
+      <Link>ClientCommon\CacheRefreshStatistics.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\CacheRequest.cs">
+      <Link>ClientCommon\CacheRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\CacheRequestHandler.cs">
+      <Link>ClientCommon\CacheRequestHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\CacheRequestType.cs">
+      <Link>ClientCommon\CacheRequestType.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\ChangeSet.cs">
+      <Link>ClientCommon\ChangeSet.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\ChangeSetResponse.cs">
+      <Link>ClientCommon\ChangeSetResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\HttpCacheRequestHandler.cs">
+      <Link>ClientCommon\HttpCacheRequestHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\ArchiveIdManager.cs">
+      <Link>IsolatedStorage\ArchiveIdManager.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\AutoResetLock.cs">
+      <Link>IsolatedStorage\AutoResetLock.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\CacheData.cs">
+      <Link>IsolatedStorage\CacheData.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\CacheFileType.cs">
+      <Link>IsolatedStorage\CacheFileType.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\Constants.cs">
+      <Link>IsolatedStorage\Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\DownloadResponseData.cs">
+      <Link>IsolatedStorage\DownloadResponseData.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\IsolatedStorageCollection.cs">
+      <Link>IsolatedStorage\IsolatedStorageCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\IsolatedStorageOfflineContext.cs">
+      <Link>IsolatedStorage\IsolatedStorageOfflineContext.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\IsolatedStorageOfflineEntity.cs">
+      <Link>IsolatedStorage\IsolatedStorageOfflineEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\IsolatedStorageSchema.cs">
+      <Link>IsolatedStorage\IsolatedStorageSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\IsolatedStorageSyncConflict.cs">
+      <Link>IsolatedStorage\IsolatedStorageSyncConflict.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\IsolatedStorageSyncError.cs">
+      <Link>IsolatedStorage\IsolatedStorageSyncError.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\LoadCompletedEventArgs.cs">
+      <Link>IsolatedStorage\LoadCompletedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\OfflineEntityKey.cs">
+      <Link>IsolatedStorage\OfflineEntityKey.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\OfflineEntitySnapshot.cs">
+      <Link>IsolatedStorage\OfflineEntitySnapshot.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\OfflineEntityState.cs">
+      <Link>IsolatedStorage\OfflineEntityState.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\SaveFailedException.cs">
+      <Link>IsolatedStorage\SaveFailedException.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\StorageHandler.cs">
+      <Link>IsolatedStorage\StorageHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\StoreConflict.cs">
+      <Link>IsolatedStorage\StoreConflict.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\StoreConflictResolutionAction.cs">
+      <Link>IsolatedStorage\StoreConflictResolutionAction.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\SyncActiveException.cs">
+      <Link>IsolatedStorage\SyncActiveException.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\isolatedstorage\SyncErrorInfo.cs">
+      <Link>IsolatedStorage\SyncErrorInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\OfflineSyncProvider.cs">
+      <Link>ClientCommon\OfflineSyncProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\ProcessCacheRequestCompletedEventArgs.cs">
+      <Link>ClientCommon\ProcessCacheRequestCompletedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\RefreshCompletedEventArgs.cs">
+      <Link>ClientCommon\RefreshCompletedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\clientcommon\SerializationFormat.cs">
+      <Link>ClientCommon\SerializationFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\common\Conflict.cs">
+      <Link>Common\Conflict.cs</Link>
+    </Compile>
+    <Compile Include="..\common\IOfflineEntity.cs">
+      <Link>Common\IOfflineEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\common\OfflineEntityMetadata.cs">
+      <Link>Common\OfflineEntityMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\common\SyncConflict.cs">
+      <Link>Common\SyncConflict.cs</Link>
+    </Compile>
+    <Compile Include="..\common\SyncConflictResolution.cs">
+      <Link>Common\SyncConflictResolution.cs</Link>
+    </Compile>
+    <Compile Include="..\common\SyncError.cs">
+      <Link>Common\SyncError.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\AtomEntryInfoWrapper.cs">
+      <Link>Formatters\AtomEntryInfoWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\AtomHelper.cs">
+      <Link>Formatters\AtomHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\EntryInfoWrapper.cs">
+      <Link>Formatters\EntryInfoWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\FormatterConstants.cs">
+      <Link>Formatters\FormatterConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\FormatterUtilities.cs">
+      <Link>Formatters\FormatterUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\JsonElementTypes.cs">
+      <Link>Formatters\JsonElementTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\JsonEntryInfoWrapper.cs">
+      <Link>Formatters\JsonEntryInfoWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\JsonHelper.cs">
+      <Link>Formatters\JsonHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\ODataAtomReader.cs">
+      <Link>Formatters\ODataAtomReader.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\ODataAtomWriter.cs">
+      <Link>Formatters\ODataAtomWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\ODataJsonReader.cs">
+      <Link>Formatters\ODataJsonReader.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\ODataJsonWriter.cs">
+      <Link>Formatters\ODataJsonWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\ReaderItemType.cs">
+      <Link>Formatters\ReaderItemType.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\ReflectionUtility.cs">
+      <Link>Formatters\ReflectionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\SyncReader.cs">
+      <Link>Formatters\SyncReader.cs</Link>
+    </Compile>
+    <Compile Include="..\formatters\SyncWriter.cs">
+      <Link>Formatters\SyncWriter.cs</Link>
+    </Compile>
+    <Compile Include="ExceptionUtility.cs" />
+    <Compile Include="FrameworkSupport\ClientWebRequestCreator.cs" />
+    <Compile Include="FrameworkSupport\DisplayAttribute.cs" />
+    <Compile Include="FrameworkSupport\KeyAttribute.cs" />
+    <Compile Include="FrameworkSupport\LocalizableString.cs" />
+    <Compile Include="FrameworkSupport\WebRequestCreator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\lib\Json.Net\Portable\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+</Project>
