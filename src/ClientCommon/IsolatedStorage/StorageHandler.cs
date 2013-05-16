@@ -242,7 +242,7 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
 
                 ResponseData downloadData = new ResponseData();
                 downloadData.Anchor = anchor;
-                downloadData.Entities = entities.ToList(); //TODO: Finn Fix
+                downloadData.Entities = entities.ToList(); 
                 string fileName = GetFileName(CacheFileType.DownloadResponse);
 
                 using (IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication())
