@@ -120,7 +120,11 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
                 using (Stream writeStream = OpenWriteCryptoStream(fileStream))
                 {
                     var serializer = GetSerializer(typeof(IEnumerable<IsolatedStorageOfflineEntity>));
-                    serializer.Serialize(new StreamWriter(writeStream), changes);
+
+                    using (var sw = new StreamWriter(writeStream))
+                    {
+                        serializer.Serialize(sw, changes);    
+                    }
 
                     CheckAndRefreshEncryptor();
                 }
@@ -197,13 +201,17 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
 
                     // This approach assumes that there are not duplicates between the conflicts and the updated entities (there shouldn't be)
                     responseData.Entities = (from c in conflicts
-                                            select (IsolatedStorageOfflineEntity)c.LiveEntity).Concat(entities);
+                                            select (IsolatedStorageOfflineEntity)c.LiveEntity).Concat(entities).ToList();
 
                     using (Stream fileStream = OpenWriteFile(isoFile, fileName))
                     using (Stream writeStream = OpenWriteCryptoStream(fileStream))
                     {
                         var serializer = GetSerializer(typeof(ResponseData));
-                        serializer.Serialize(new StreamWriter(writeStream), responseData);
+
+                        using (var sw = new StreamWriter(writeStream))
+                        {
+                            serializer.Serialize(sw, responseData);
+                        }
 
                         CheckAndRefreshEncryptor();
                     }
@@ -234,7 +242,7 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
 
                 ResponseData downloadData = new ResponseData();
                 downloadData.Anchor = anchor;
-                downloadData.Entities = entities;
+                downloadData.Entities = entities.ToList(); 
                 string fileName = GetFileName(CacheFileType.DownloadResponse);
 
                 using (IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication())
@@ -243,7 +251,10 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
                 {
                     var serializer = GetSerializer(typeof(ResponseData));
 
-                    serializer.Serialize(new StreamWriter(writeStream), downloadData);
+                    using (var sw = new StreamWriter(writeStream))
+                    {
+                        serializer.Serialize(sw, downloadData);
+                    }
 
                     CheckAndRefreshEncryptor();
                 }
@@ -614,7 +625,7 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
         {
             return JsonSerializer.Create(new JsonSerializerSettings()
             {
-
+                TypeNameHandling = TypeNameHandling.All
             });
         }
 
@@ -628,7 +639,7 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
 
         private void ReadSaveChangesFile(string fileName, CacheData cacheData)
         {
-            IsolatedStorageOfflineEntity[] entities = ReadFile<IsolatedStorageOfflineEntity[]>(fileName);
+            ICollection<IsolatedStorageOfflineEntity> entities = ReadFile<ICollection<IsolatedStorageOfflineEntity>>(fileName);
             if (entities != null)
             {
                 cacheData.AddSerializedLocalChanges(entities);
@@ -745,7 +756,10 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
         {
             var serializer = GetSerializer(t.GetType());
 
-            serializer.Serialize(new StreamWriter(stream), t);
+            using (var sw = new StreamWriter(stream))
+            {
+                serializer.Serialize(sw, t);
+            }
         }
 
         /// <summary>
@@ -1014,7 +1028,7 @@ namespace Microsoft.Synchronization.ClientServices.IsolatedStorage
                                         break;
 
                                     case CacheFileType.SaveChanges:
-                                        IsolatedStorageOfflineEntity[] entities = ReadFile<IsolatedStorageOfflineEntity[]>(fi.FileName, isoFile);
+                                        ICollection<IsolatedStorageOfflineEntity> entities = ReadFile<ICollection<IsolatedStorageOfflineEntity>>(fi.FileName, isoFile);
                                         WriteArchiveEntities(entities, !fi.HasUploadFile, writeStream, serializedItems);
                                         break;
 
