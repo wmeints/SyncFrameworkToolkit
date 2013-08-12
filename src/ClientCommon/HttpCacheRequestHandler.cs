@@ -22,6 +22,7 @@ using System.Net.Browser;
 using System.Runtime.Serialization.Json;
 using System.Security;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Linq;
 using Microsoft.Synchronization.Services.Formatters;
@@ -129,7 +130,7 @@ namespace Microsoft.Synchronization.ClientServices
         /// 6. Else proceeds to issue the request
         /// </summary>
         /// <param name="wrapper">AsyncArgsWrapper object</param>
-        void ProcessRequest(AsyncArgsWrapper wrapper)
+        async Task ProcessRequest(AsyncArgsWrapper wrapper)
         {
             try
             {
@@ -177,11 +178,13 @@ namespace Microsoft.Synchronization.ClientServices
                 // Get the request stream
                 if (wrapper.CacheRequest.RequestType == CacheRequestType.UploadChanges)
                 {
-                    webRequest.BeginGetRequestStream(OnUploadGetRequestStreamCompleted, wrapper);
+                    var task = webRequest.GetRequestStreamAsync();
+                    await OnUploadGetRequestStreamCompleted(task, wrapper).ConfigureAwait(false);
                 }
                 else
                 {
-                    webRequest.BeginGetRequestStream(OnDownloadGetRequestStreamCompleted, wrapper);
+                    var task = webRequest.GetRequestStreamAsync();
+                    await OnDownloadGetRequestStreamCompleted(task, wrapper).ConfigureAwait(false);
                 }
             }
             catch (Exception e)
@@ -198,13 +201,12 @@ namespace Microsoft.Synchronization.ClientServices
         /// <summary>
         /// Callback for the Upload HttpWebRequest.beginGetRequestStream
         /// </summary>
-        /// <param name="asyncResult">IAsyncResult object</param>
-        void OnUploadGetRequestStreamCompleted(IAsyncResult asyncResult)
+        /// <param name="task">Task representing the future request stream</param>
+        async Task OnUploadGetRequestStreamCompleted(Task<Stream> task, AsyncArgsWrapper wrapper)
         {
-            AsyncArgsWrapper wrapper = asyncResult.AsyncState as AsyncArgsWrapper;
             try
             {
-                Stream requestStream = wrapper.WebRequest.EndGetRequestStream(asyncResult);
+                Stream requestStream = await task.ConfigureAwait(false);
 
                 // Create a SyncWriter to write the contents
                 this._syncWriter = (base.SerializationFormat == SerializationFormat.ODataAtom)
@@ -273,13 +275,12 @@ namespace Microsoft.Synchronization.ClientServices
         /// <summary>
         /// Callback for the Download HttpWebRequest.beginGetRequestStream
         /// </summary>
-        /// <param name="asyncResult">IAsyncResult object</param>
-        void OnDownloadGetRequestStreamCompleted(IAsyncResult asyncResult)
+        /// <param name="task">Task representing the future request stream</param>
+        async Task OnDownloadGetRequestStreamCompleted(Task<Stream> task, AsyncArgsWrapper wrapper)
         {
-            AsyncArgsWrapper wrapper = asyncResult.AsyncState as AsyncArgsWrapper;
             try
             {
-                Stream requestStream = wrapper.WebRequest.EndGetRequestStream(asyncResult);
+                Stream requestStream = await task.ConfigureAwait(false);
 
                 // Create a SyncWriter to write the contents
                 this._syncWriter = (base.SerializationFormat == SerializationFormat.ODataAtom)
