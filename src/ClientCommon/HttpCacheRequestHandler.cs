@@ -401,27 +401,27 @@ namespace Microsoft.Synchronization.ClientServices
         /// Issues the BeginGetResponse call for the HttpWebRequest
         /// </summary>
         /// <param name="wrapper">AsyncArgsWrapper object</param>
-        private void GetWebResponse(AsyncArgsWrapper wrapper)
+        private async Task GetWebResponse(AsyncArgsWrapper wrapper)
         {
             // Send the request and wait for the response.
             if (wrapper.CacheRequest.RequestType == CacheRequestType.UploadChanges)
             {
-                wrapper.WebRequest.BeginGetResponse(OnUploadGetResponseCompleted, wrapper);
+                var task = wrapper.WebRequest.GetResponseAsync();
+                await OnUploadGetResponseCompleted(task, wrapper).ConfigureAwait(false);
             }
             else
             {
-                wrapper.WebRequest.BeginGetResponse(OnDownloadGetResponseCompleted, wrapper);
+                var task = wrapper.WebRequest.GetResponseAsync();
+                await OnDownloadGetResponseCompleted(task, wrapper).ConfigureAwait(false);
             }
         }
 
         /// <summary>
         /// Callback for the Upload HttpWebRequest.BeginGetResponse call
         /// </summary>
-        /// <param name="asyncResult">IAsyncResult object</param>
-        void OnUploadGetResponseCompleted(IAsyncResult asyncResult)
+        /// <param name="task">IAsyncResult object</param>
+        async Task OnUploadGetResponseCompleted(Task<WebResponse> task, AsyncArgsWrapper wrapper)
         {
-            AsyncArgsWrapper wrapper = asyncResult.AsyncState as AsyncArgsWrapper;
-
             wrapper.UploadResponse = new ChangeSetResponse();
 
             HttpWebResponse response = null;
@@ -429,7 +429,7 @@ namespace Microsoft.Synchronization.ClientServices
             {
                 try
                 {
-                    response = wrapper.WebRequest.EndGetResponse(asyncResult) as HttpWebResponse;
+                    response = await task.ConfigureAwait(false) as HttpWebResponse;
                 }
                 catch (WebException we)
                 {
@@ -593,10 +593,8 @@ namespace Microsoft.Synchronization.ClientServices
         /// retrieve the list of IOfflineEntity objects and constructs an ChangeSet for that.
         /// </summary>
         /// <param name="asyncResult">IAsyncResult object</param>
-        void OnDownloadGetResponseCompleted(IAsyncResult asyncResult)
+        async Task OnDownloadGetResponseCompleted(Task<WebResponse> task, AsyncArgsWrapper wrapper)
         {
-            AsyncArgsWrapper wrapper = asyncResult.AsyncState as AsyncArgsWrapper;
-
             wrapper.DownloadResponse = new ChangeSet();
 
             HttpWebResponse response = null;
@@ -604,7 +602,7 @@ namespace Microsoft.Synchronization.ClientServices
             {
                 try
                 {
-                    response = wrapper.WebRequest.EndGetResponse(asyncResult) as HttpWebResponse;
+                    response = await task.ConfigureAwait(false) as HttpWebResponse;
                 }
                 catch (WebException we)
                 {
